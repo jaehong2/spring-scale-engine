@@ -20,14 +20,14 @@ public class ArticleApiTest {
 
 	@Test
 	void readTest() {
-		ArticleResponse response = read(233241539702644736L);
+		ArticleResponse response = read(233579563531513856L);
 		System.out.println("response = " + response);
 	}
 
 	@Test
 	void updateTest() {
-		update(233236281735733248L);
-		ArticleResponse response = read(233236281735733248L);
+		update(233579563531513856L);
+		ArticleResponse response = read(233579563531513856L);
 		System.out.println("response = " + response);
 
 	}
@@ -35,20 +35,22 @@ public class ArticleApiTest {
 	@Test
 	void deleteTest() {
 		restClient.delete()
-			.uri("/v1/articles/{articleId", 233236281735733248L)
-			.retrieve();
+			.uri("/v1/articles/{articleId}", 233579563531513856L)
+			.retrieve()
+			.toBodilessEntity();
 	}
 
 	void update(Long articleId) {
 		restClient.put()
-			.uri("/v1/articles/{articlesId}", articleId)
-			.body(new ArticleUpdateRequest("hi 2", "my content 2"))
-			.retrieve();
+			.uri("/v1/articles/{articleId}", articleId)
+			.body(new ArticleUpdateRequest("hi2", "my content 2"))
+			.retrieve()
+			.toEntity(ArticleResponse.class);
 	}
 
 	ArticleResponse read(Long articleId) {
 		return restClient.get()
-			.uri("/v1/articles/{articlesId}", articleId)
+			.uri("/v1/articles/{articleId}", articleId)
 			.retrieve()
 			.body(ArticleResponse.class);
 	}

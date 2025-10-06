@@ -20,7 +20,7 @@ public class ArticleController {
 	private final ArticleService articleService;
 
 	@GetMapping("/v1/articles/{articleId}")
-	public ArticleResponse read(@PathVariable Long articleId) {
+	public ArticleResponse read(@PathVariable("articleId") Long articleId) {
 		return articleService.read(articleId);
 	}
 
@@ -30,12 +30,12 @@ public class ArticleController {
 	}
 
 	@PutMapping("/v1/articles/{articleId}")
-	public ArticleResponse update(@PathVariable Long articleId, @RequestBody ArticleUpdateRequest request) {
+	public ArticleResponse update(@PathVariable(name = "articleId") Long articleId, @RequestBody ArticleUpdateRequest request) {
 		return articleService.update(articleId, request);
 	}
 
 	@DeleteMapping("/v1/articles/{articleId}")
-	public void delete(@PathVariable Long articleId) {
+	public void delete(@PathVariable("articleId") Long articleId) {
 		articleService.delete(articleId);
 	}
 }
