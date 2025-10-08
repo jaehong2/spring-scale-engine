@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kuke.board.article.service.ArticleService;
 import kuke.board.article.service.request.ArticleCreateRequest;
 import kuke.board.article.service.request.ArticleUpdateRequest;
+import kuke.board.article.service.response.ArticlePageResponse;
 import kuke.board.article.service.response.ArticleResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +26,16 @@ public class ArticleController {
 		return articleService.read(articleId);
 	}
 
+	@GetMapping("v1/articles")
+	public ArticlePageResponse readAll(
+		@RequestParam("boardId") Long boardId,
+		@RequestParam("page") Long page,
+		@RequestParam("pageSize") Long pageSize
+	) {
+		return articleService.readAll(boardId, page, pageSize);
+	}
+
+
 	@PostMapping("/v1/articles")
 	public ArticleResponse create(@RequestBody ArticleCreateRequest request) {
 		return articleService.create(request);
@@ -33,6 +45,8 @@ public class ArticleController {
 	public ArticleResponse update(@PathVariable(name = "articleId") Long articleId, @RequestBody ArticleUpdateRequest request) {
 		return articleService.update(articleId, request);
 	}
+
+
 
 	@DeleteMapping("/v1/articles/{articleId}")
 	public void delete(@PathVariable("articleId") Long articleId) {
