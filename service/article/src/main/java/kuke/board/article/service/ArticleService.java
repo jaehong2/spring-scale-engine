@@ -1,5 +1,7 @@
 package kuke.board.article.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +55,13 @@ public class ArticleService {
 				PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)
 			)
 		);
+	}
+
+	public List<ArticleResponse> readAllInfiniteScroll(Long boardId, Long pageSize, Long lastArticleId) {
+		List<Article> articles = lastArticleId == null ?
+			articleRepository.findAllInfiniteScroll(boardId, pageSize) :
+			articleRepository.findAllInfiniteScroll(boardId, pageSize, lastArticleId);
+		return articles.stream().map(ArticleResponse::from).toList();
 	}
 
 }
